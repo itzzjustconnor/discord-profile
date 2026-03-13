@@ -133,6 +133,34 @@ Hi, my name is Connor. I've been coding for 4 years now, and I have experience w
 </div>
 
 </div>
+<script>
+fetch("https://api.lanyard.rest/v1/users/1117676075271594104")
+  .then(res => res.json())
+  .then(data => {
+      const d = data.data;
+
+      // Spotify activity
+      if (d.listening_to_spotify && d.spotify) {
+          document.getElementById("discord-status").innerText =
+              `Listening to ${d.spotify.song} — ${d.spotify.artist}`;
+          return;
+      }
+
+      // Other activities (games, VS Code, etc.)
+      const activity = d.activities.find(a => a.type !== 4); // ignore custom status
+      if (activity) {
+          document.getElementById("discord-status").innerText =
+              `${activity.name} — ${activity.details || ""} ${activity.state || ""}`;
+          return;
+      }
+
+      // If nothing else
+      document.getElementById("discord-status").innerText = "Online";
+  })
+  .catch(() => {
+      document.getElementById("discord-status").innerText = "Unable to load status";
+  });
+</script>
 
 </body>
 </html>
