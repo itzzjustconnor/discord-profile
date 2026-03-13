@@ -158,13 +158,12 @@ const statusEl = document.getElementById("discord-status");
 const albumEl = document.getElementById("discord-album");
 
 function updatePresence(d) {
-    // Spotify
-    if (d.listening_to_spotify && d.spotify) {
-        statusEl.innerText = `Listening to ${d.spotify.song} — ${d.spotify.artist}`;
-        albumEl.src = d.spotify.album_art_url;
-        albumEl.style.display = "block";
-        return;
-    }
+ if (d.listening_to_spotify && d.spotify && d.spotify.album_art_url) {
+    statusEl.innerText = `Listening to ${d.spotify.song} — ${d.spotify.artist}`;
+    albumEl.src = d.spotify.album_art_url;
+    albumEl.style.display = "block";
+    return;
+}
 
     // Other activities (ignore custom status type 4)
     const activity = d.activities.find(a => a.type !== 4);
